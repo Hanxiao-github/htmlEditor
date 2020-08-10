@@ -1,0 +1,179 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    width: 100%;
+}
+
+body {
+    position: relative;
+    width: 100%;
+}
+
+/* 标题栏样式 */
+.title {
+    background-color: #409EFF;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    position: absolute;
+    top: 0;
+    color: #fff;
+    font-weight: bold;
+    padding-left: 20px;
+    box-sizing: border-box;
+}
+
+/* 下载、预览操作区 */
+.save {
+    position: absolute;
+    top: 50px;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    text-align: right;
+    padding-right: 10px;
+    box-sizing: border-box;
+}
+
+.save .btn {
+    border: none;
+    height: 30px;
+    width: 70px;
+}
+
+/* 主内容区 */
+.container {
+    position: absolute;
+    top: 90px;
+    width: 100%;
+    height: 900px;
+}
+
+/* 预览区 */
+.container .page {
+    position: absolute;
+    left: 20px;
+    width: 820px;
+    height: 800px;
+    background: #fff;
+    border: 1px solid #eee;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.27), 0 0 30px rgba(0, 0, 0, .1) inset;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.container .page .pane {
+    width: 100%;
+    height: 1100px;
+}
+
+/* 滚动条样式 */
+.page::-webkit-scrollbar {
+    /*滚动条整体样式*/
+    width: 10px;
+    /*高宽分别对应横竖滚动条的尺寸*/
+    height: 1px;
+}
+
+.page::-webkit-scrollbar-thumb {
+    /*滚动条里面小方块*/
+    border-radius: 10px;
+    background-color: skyblue;
+    background-image: -webkit-linear-gradient(45deg,
+            rgba(255, 255, 255, 0.2) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 255, 255, 0.2) 75%,
+            transparent 75%,
+            transparent);
+}
+
+.page::-webkit-scrollbar-track {
+    /*滚动条里面轨道*/
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    background: #ededed;
+    border-radius: 10px;
+}
+
+/* 页面布局 */
+.container .layout {
+    position: absolute;
+    top: 50px;
+    right: 100px;
+    /* border: solid 2px #000; */
+    width: 500px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.container .layout .layout-card {
+    width: 200px;
+    height: 100px;
+    background-color: #409EFF;
+    border-radius: 15px;
+    box-shadow: 0 0 5px #000;
+    text-align: center;
+    line-height: 100px;
+    margin: 15px;
+}
+
+
+/* 下载弹出框 */
+.demo-bg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 0;
+    width: 100%;
+    height: 700px;
+    background-color: rgba(0, 0, 0, 0.4);
+    /*实现透明背景*/
+    display: none;
+}
+
+.demo-txt {
+    position: relative;
+    z-index: 1;
+    color: #000;
+    background: white;
+    width: 80%;
+    height: 50%;
+    margin: auto;
+    padding: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 50px;
+    display: none;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#closeBtn {
+    float: right;
+    background-color: #fff;
+    border: none;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#word {
+    height: 550px;
+    overflow: auto;
+}
+
+/* 文本编辑区 */
+#add-text-prompt {
+    display: none;
+    z-index: 1;
+    position: absolute;
+    top: 100px;
+    left: 50px;
+}

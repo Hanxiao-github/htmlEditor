@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML可视化编辑器</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/drag.js"></script>
+
+</head>
+
+<body>
+
+    <!--文档头部-->
+    <header>
+        <div class="title">
+            <!-- <img src="./static/images/logo.png" width="40px" height="40px" /> -->
+            HTML可视化编辑器
+        </div>
+    </header>
+
+    <!--下载、预览操作区-->
+    <div class="save">
+        <button id="btn-preview" class="btn">
+            预览
+        </button>
+        <button id="save-html5" class="btn">
+            下载
+        </button>
+    </div>
+
+    <!--主内容区域-->
+    <div class="container">
+
+        <!-- 预览区 -->
+        <div class="page">
+            <div id="screen" class="pane">
+                <!-- <h1 style="text-align: center;padding-top: 50px;">将右边元素拖动到本页中</h1> -->
+            </div>
+        </div>
+
+        <!--页面布局-->
+        <div id="layout-content" class="layout">
+            <div>
+                <div id="list" class="layout-card" draggable="true">
+                    列表
+                </div>
+            </div>
+            <div>
+                <div id="table" class="layout-card" draggable="true">
+                    表格(无表头)
+                </div>
+            </div>
+            <div>
+                <div id="table2" class="layout-card" draggable="true">
+                    表格(含表头)
+                </div>
+            </div>
+            <div>
+                <div id="cross" class="layout-card" draggable="true">
+                    横线
+                </div>
+            </div>
+            <div>
+                <div id="mark" class="layout-card" draggable="true">
+                    医生签名区
+                </div>
+            </div>
+            <div>
+                <div id="text" class="layout-card" draggable="true">
+                    文本
+                </div>
+            </div>
+            <div>
+                <div id="space" class="layout-card space" draggable="true">
+                    间距
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 文本布局参数配置模态框 -->
+    <div id="add-text-prompt">
+        <div>
+            <div>
+                <script id="ueditor-container" name="content" type="text/plain"></script>
+            </div>
+            <div>
+                <button id="editor-cancel-btn" >取消</button>
+                <button id="editor-confirm-btn">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 下载弹出框 -->
+    <div class='demo'>
+        <div class='demo-bg'></div>
+        <div class='demo-txt'>
+            <button id="closeBtn">X</button>
+            <div id="word"></div>
+        </div>
+    </div>
+
+    <script>
+        //预览功能
+        var spaceText = "";
+        $("#btn-preview").click(function () {
+
+            if ($("#btn-preview").hasClass("toPreview")) {
+                $("#screen").children().css("border", "none");
+                $("#screen").css("padding-bottom", "10px");
+
+                $("#btn-preview").html("<span class='am-icon-pencil'></span>继续编辑");
+                $("#btn-preview").removeClass("toPreview");
+                $("#btn-preview").addClass("toEdit");
+                $(".delete").hide();
+                $(".am-form-file").hide();
+
+                $(".list-cell").css("border", "none");
+                $("#screen").find(".title").css("border-left", "10px solid #0099CC");
+                spaceText = $("#screen").find(".space").html();
+                $("#screen").find(".space").html("");
+            } else {
+                $(".list-cell").css("border", "1px solid black");
+                $("#screen").children().css("border", "1px solid black");
+                $("#screen").find(".title").css("border-left", "10px solid #0099CC")
+                $("#screen").css("padding-bottom", "200px");
+                $("#btn-preview").html("<span class='am-icon-eye'></span>预览");
+                $("#btn-preview").removeClass("toEdit");
+                $("#btn-preview").addClass("toPreview");
+                $(".delete").show();
+                $(".am-form-file").show();
+                $("#screen").find(".space").html(spaceText);
+            }
+        })
+        
+        // 下载功能
+        $("#save-html5").click(function () {
+            $("#screen").children().css("border", "none");
+            $("#screen").css("padding-bottom", "10px");
+
+            $(".delete").hide();
+            $(".am-form-file").hide();
+
+            $(".list-cell").css("border", "none");
+            $("#screen").find(".title").css("border-left", "10px solid #0099CC");
+            spaceText = $("#screen").find(".space").html();
+            $("#screen").find(".space").html("");
+
+            var screenOuterHTML = $("#screen").prop("outerHTML");
+            console.log(screenOuterHTML);
+
+            var htmlDocPart1 = '<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"> <title>报告</title> </head> <body>';
+            var htmlDocPart2 = '</body></html>';
+
+            $(".demo-bg").css("display","block");
+            $(".demo-txt").css("display","block");
+
+            $("#word").text(htmlDocPart1 + screenOuterHTML + htmlDocPart2);
+        });
+
+        // 下载弹窗显示
+        $("#closeBtn").click(function() {
+            $(".demo-bg").css("display","none");
+            $(".demo-txt").css("display","none");
+        })
+
+
+    </script>
+
+    <!-- 配置文件 -->
+    <script type="text/javascript" src="static/ueditor/ueditor.config.js"></script>
+    <!-- 编辑器源码文件 -->
+    <script type="text/javascript" src="static/ueditor/ueditor.all.js"></script>
+    <script>
+        var ue = UE.getEditor('ueditor-container',{
+            initialFrameWidth: null,
+            initialFrameHeight:300,
+            zIndex: 2000,
+            autoHeightEnabled: false,
+            maximumWords: 140,
+            elementPathEnabled: false,
+            focus: true,
+            enableAutoSave: false,
+        });
+    </script>
+
+
+</body>
+
+</html>
